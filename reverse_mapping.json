@@ -1,0 +1,170 @@
+{
+    "data": {
+        "name": "data_transformer.reverse_mapping.create_shipment",
+        "description": "Will Map Data of vamaship with Vdezi",
+        "event_type": "data_mapping",
+        "parameters": {
+            "properties": {
+                "shipping_partner_id": {
+                    "ref": "outputs/initial_event/shipment_id"
+                },
+                "channel_name": {
+                    "ref": "outputs/initial_event/channel_name"
+                },
+                "aggregator_shipment_id":{
+                    "ref": "outputs/initial_event/aggregator_shipment_id"
+                },
+                "account_id":{
+                    "ref": "outputs/initial_event/account_id"
+                },
+                "shipment_id":{
+                    "ref": "outputs/initial_event/shipment_id"
+                },
+                "shipment_data":{
+                    "ref": "outputs/initial_event/event_data"
+                }
+            }
+        },
+        "mapping": {
+            "conversion": {
+                "type": ""
+            },
+            "properties":{
+                "shipping_partner_id": {
+                    "ref": "parameters/shipment_id"
+                },
+                "channel_name": {
+                    "ref": "parameters/channel_name"
+                },
+                "aggregator_shipment_id":{
+                    "ref": "parameters/aggregator_shipment_id"
+                },
+                "account_id":{
+                    "ref": "parameters/account_id"
+                },
+                "shipment_id":{
+                    "ref": "parameters/shipment_id"
+                },
+                "seller": {
+                    "type": "object",
+                    "properties":{
+                        "shipper_address_1": {
+                            "ref":"parameters/shipment_data/address"
+                        },
+                        "shipper_city": {
+                            "ref":"parameters/shipment_data/city"
+                        },
+                        "shipper_country": {
+                            "ref":"parameters/shipment_data/country"
+                        },
+                        "shipper_email_id": {
+                            "ref":"parameters/shipment_data/email"
+                        },
+                        "shipper_name": {
+                            "ref":"parameters/shipment_data/name"
+                        },
+                        "shipper_mobile_no": {
+                            "ref":"parameters/shipment_data/phone"
+                        },
+                        "shipper_pincode": {
+                            "ref":"parameters/shipment_data/pincode"
+                        },
+                        "shipper_state": {
+                            "ref": "parameters/shipment_data/state"
+                        }
+                    }
+                },
+                "shipments":{
+                    "type":"array",
+                    "properties":{
+                        "type":"object",
+                        "receiver_address_1":{
+                            "ref":"parameters/shipment_data/address"
+                        },
+                        "receiver_city":{
+                            "ref":"parameters/shipment_data/city"
+                        },
+                        "receiver_country":{
+                            "ref":"parameters/shipment_data/country"
+                        },
+                        "email":{
+                            "ref":"parameters/shipment_data/receiver_email_id"
+                        },
+                        "height":{
+                            "ref":"parameters/shipment_data/package_height"
+                        },
+                        "is_cod":{
+                            "ref":"parameters/shipment_data/shipment_type",
+                            "operation":{
+                                "type":"dependent_value_check",
+                                "inputs":{
+                                    "properties":{
+                                        "check_value":{
+                                            "default_value":"cod"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "length":{
+                            "ref":"parameters/shipment_data/package_length"
+                        },
+                        "name":{
+                            "ref":"parameters/shipment_data/receiver_name"
+                        },
+                        "phone":{
+                            "ref":"parameters/shipment_data/receiver_mobile_no"
+                        },
+                        "pickup_date":{
+                            "ref":"parameters/shipment_data/pickup_date"
+                        },
+                        "pincode":{
+                            "ref":"parameters/shipment_data/receiver_pincode"
+                        },
+                        "product":{
+                            "ref":"parameters/shipment_data/package_item_description"
+                        },
+                        "product_value":{
+                            "ref":"parameters/shipment_data/package_product_value"
+                        },
+                        "quantity":{
+                            "ref":"parameters/shipment_data/package_quantity"
+                        },
+                        "reference1":{},
+                        "surface_category":{},
+                        "reference2":{},
+                        "state":{
+                            "ref":"parameters/shipment_data/receiver_state"
+                        },
+                        "unit":{},
+                        "weight":{
+                            "ref":"parameters/shipment_data/package_weight"
+                        }
+                    }
+                }
+            }
+        },
+        "outputs": {
+            "success": {
+                "properties": {
+                    "mapped_data": {
+                        "ref": "mapping"
+                    },
+                    "download_from_s3": {
+                        "default_value": false
+                    }
+                }
+            },
+            "error": {
+                "properties": {
+                    "error_code": {
+                        "ref": "error_code"
+                    },
+                    "error_message": {
+                        "default_value": ""
+                    }
+                }
+            }
+        }
+    }
+}

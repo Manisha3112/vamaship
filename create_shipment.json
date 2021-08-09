@@ -1,0 +1,205 @@
+{
+    "data":{
+        "name":"logistics.post.vamaship.create_shipment",
+        "event_type":"api_call",
+        "description":"create shipement in vamaship",
+        "parameters":{
+            "properties":{
+                "host":{
+                    "ref":"ecom3stagingapi.vamaship.com"
+                },
+                "api_key":{
+                    "ref":"config_data/dev_credentials/api_key"
+                },
+                "shipment_data":{
+                    "ref":"outputs/data_transformer.forward_mapping.create_shipment/mapped_data"
+                }
+            }
+        },
+        "outputs":{
+            "success":{
+                "properties":{
+                    "data":{
+                        "ref":"response/quotes"
+                    }
+                }
+            },
+            "error":{
+                "properties":{
+                    "error_code":{
+                        "ref":"error_object/error_code"
+                    }
+                }
+            }
+        },
+        "response":{
+            "conversion":{
+                "required":true,
+                "type": ""
+            },
+            "conditions":{
+                "success":{
+                    "fn::equal":[
+                        {
+                            "variable1": {
+                                "default_value":"success"
+                            }
+                        },
+                        {
+                            "variable2": {
+                                "default_value":"true"
+                            }
+                        }
+                    ]
+                },
+                "error":{}
+            }
+        },
+        "request_configuration":{
+            "type":"single_request",
+            "inputs":{}
+        },
+        "request":{
+            "properties":{
+                "http_protocol":{
+                    "default_value":"https"
+                },
+                "host":{
+                    "ref":"parameters/host"
+                },
+                "path":{
+                    "default_value":"ecom/api/v1/surface/quote"
+                },
+                "method":{
+                    "default_value":"POST"
+                },
+                "headers":{
+                    "type":"object",
+                    "properties":{
+                        "Content-Type":{
+                            "default_value":"application/json"
+                        },
+                        "Authorization:":{
+                            "ref":"parameters/api_key"
+                        }
+                    }
+                },
+                "body":{
+                    "type":"object",
+                    "properties":{
+                        "seller": {
+                            "type": "object",
+                            "properties":{
+                                "address": {
+                                    "ref":"parameters/shipment_data/shipper_address_1"
+                                },
+                                "city": {
+                                    "ref":"parameters/shipment_data/shipper_city"
+                                },
+                                "country": {
+                                    "ref":"parameters/shipment_data/shipper_country"
+                                },
+                                "email": {
+                                    "ref":"parameters/shipment_data/shipper_email_id"
+                                },
+                                "name": {
+                                    "ref":"parameters/shipment_data/shipper_name"
+                                },
+                                "phone": {
+                                    "ref":"parameters/shipment_data/shipper_mobile_no"
+                                },
+                                "pincode": {
+                                    "ref":"parameters/shipment_data/shipper_pincode"
+                                },
+                                "state": {
+                                    "ref": "parameters/shipment_data/shipper_state"
+                                }
+                            }
+                        },
+                        "shipments":{
+                            "type":"array",
+                            "properties":{
+                                "type":"object",
+                                "address":{
+                                    "ref":"parameters/shipment_data/receiver_address_1"
+                                },
+                                "breadth":{
+                                    "default_value":"10"
+                                },
+                                "city":{
+                                    "ref":"parameters/shipment_data/receiver_city"
+                                },
+                                "country":{
+                                    "ref":"parameters/shipment_data/receiver_country"
+                                },
+                                "email":{
+                                    "ref":"parameters/shipment_data/receiver_email_id"
+                                },
+                                "height":{
+                                    "ref":"parameters/shipment_data/package_height"
+                                },
+                                "is_cod":{
+                                    "ref":"parameters/shipment_data/shipment_type",
+                                    "operation":{
+                                        "type":"dependent_value_check",
+                                        "inputs":{
+                                            "properties":{
+                                                "check_value":{
+                                                    "default_value":"cod"
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "length":{
+                                    "ref":"parameters/shipment_data/package_length"
+                                },
+                                "name":{
+                                    "ref":"parameters/shipment_data/receiver_name"
+                                },
+                                "phone":{
+                                    "ref":"parameters/shipment_data/receiver_mobile_no"
+                                },
+                                "pickup_date":{
+                                    "ref":"parameters/shipment_data/pickup_date"
+                                },
+                                "pincode":{
+                                    "ref":"parameters/shipment_data/receiver_pincode"
+                                },
+                                "product":{
+                                    "ref":"parameters/shipment_data/package_item_description"
+                                },
+                                "product_value":{
+                                    "ref":"parameters/shipment_data/package_product_value"
+                                },
+                                "quantity":{
+                                    "ref":"parameters/shipment_data/package_quantity"
+                                },
+                                "reference1":{
+                                    "default_value":"002"
+                                },
+                                "surface_category":{
+                                    "default_value":"b2c"
+                                },
+                                "reference2":{
+                                    "default_value":"refno2"
+                                },
+                                "state":{
+                                    "ref":"parameters/shipment_data/receiver_state"
+                                },
+                                "unit":{
+                                    "default_value":"10"
+                                },
+                                "weight":{
+                                    "ref":"parameters/shipment_data/package_weight"
+                                }
+                            }
+                        }
+                    
+                    }
+                }
+            }
+        
+        }
+    }
+}
