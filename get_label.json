@@ -11,6 +11,9 @@
                     },
                     "api_key":{
                         "ref":"config_data/dev_credentials/api_key"
+                    },
+                    "reference_id":{
+                        "ref":"outputs/logistics.post.vamaship.create_shipment/reference_id"
                     }
                 }
             }
@@ -19,7 +22,7 @@
                 "success":{
                     "properties":{
                         "data":{
-                            "ref":"reference_id"
+                            "ref":"response/quotes"
                         }
                     }
                 },
@@ -63,7 +66,15 @@
                     "ref": "parameters/host"
                 },
                 "path": {
-                    "default_value": "ecom/api/v1/surface/book"
+                    "ref":"parameter/reference_id",
+                    "operation":{
+                        "inputs":{
+                            "properties":{
+                                "default_value": "ecom/api/v1/surface/book"
+                            }
+                        }
+                    }
+                    
                 },
                 "method": {
                     "default_value": "GET"

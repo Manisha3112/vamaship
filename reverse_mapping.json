@@ -20,6 +20,9 @@
                 "shipment_id":{
                     "ref": "outputs/initial_event/shipment_id"
                 },
+                "shipping_label":{
+                     "ref":"output/logistics.get.vamaship.read_label/label"
+                },
                 "shipment_data":{
                     "ref": "outputs/initial_event/event_data"
                 }
@@ -45,7 +48,7 @@
                 "shipment_id":{
                     "ref": "parameters/shipment_id"
                 },
-                "seller": {
+                "shipmer_details": {
                     "type": "object",
                     "properties":{
                         "shipper_address_1": {
@@ -74,10 +77,9 @@
                         }
                     }
                 },
-                "shipments":{
-                    "type":"array",
+                "receiver_details":{
+                    "type": "object",
                     "properties":{
-                        "type":"object",
                         "receiver_address_1":{
                             "ref":"parameters/shipment_data/address"
                         },
@@ -90,36 +92,28 @@
                         "receiver_email_id":{
                             "ref":"parameters/shipment_data/email"
                         },
-                        "package_height":{
-                            "ref":"parameters/shipment_data/height"
-                        },
-                        "is_cod":{
-                            "ref":"parameters/shipment_data/shipment_type",
-                            "operation":{
-                                "type":"dependent_value_check",
-                                "inputs":{
-                                    "properties":{
-                                        "check_value":{
-                                            "default_value":"cod"
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        "package_length":{
-                            "ref":"parameters/shipment_data/length"
-                        },
                         "receiver_name":{
                             "ref":"parameters/shipment_data/name"
                         },
                         "receiver_mobile_no":{
                             "ref":"parameters/shipment_data/phone"
                         },
-                        "pickup_date":{
-                            "ref":"parameters/shipment_data/pickup_date"
+                        "receiver_state":{
+                            "ref":"parameters/shipment_data/state"
                         },
                         "receiver_pincode":{
                             "ref":"parameters/shipment_data/pincode"
+                        }
+                    }
+                },
+                "package_details":{
+                    "type": "object",
+                    "properties":{
+                        "package_height":{
+                            "ref":"parameters/shipment_data/height"
+                        },
+                        "package_length":{
+                            "ref":"parameters/shipment_data/length"
                         },
                         "package_item_description":{
                             "ref":"parameters/shipment_data/product"
@@ -130,16 +124,84 @@
                         "package_quantity":{
                             "ref":"parameters/shipment_data/quantity"
                         },
-                        
-                        "receiver_state":{
-                            "ref":"parameters/shipment_data/state"
-                        },
-                        "unit":{},
                         "package_weight":{
                             "ref":"parameters/shipment_data/weight"
                         }
                     }
+                },
+                "pickup_details":{
+                    "type": "object",
+                    "properties":{
+                        "pickup_date":{
+                            "ref":"parameters/shipment_data/pickup_date"
+                        },
+                        "pickup_to_time":{
+                            "ref":"parameters/shipment_data/pickup_to_time"
+                        },
+                        "pickup_from_time":{
+                            "ref":"parameters/shipment_data/pickup_from_time"
+                        }
+                    }
+                },
+                "billing_details":{
+                    "type": "object",
+                    "properties":{
+                        "properties":{
+                            "billling_invoice_number":{
+                                "ref": "parameters/shipment_data/billling_invoice_number"
+                            },
+                            "billling_duty_payment_type":{
+                                "ref":"parameters/shipment_label/shipments[0]/type"
+                            },
+                            "billing_duty_applicable":{
+                                "default_value":""
+                            },
+                            "billing_payment_type":{
+                                "ref": "parameters/shipment_data/billing_payment_type"
+                            },
+                            "billing_order_amount":{
+                                "ref": "parameters/shipment_data/billing_order_amount"
+                            },
+                            "billing_cod_amount":{
+                                "ref": "parameters/shipment_data/billing_cod_amount"
+                            }
+                    }
+                },
+                "shipping_label":{
+                    "ref":"parameters/shipping_label"
+                },
+                "current_status":{
+                    "default_value":"FINAL"
+                },
+                "retry_count":{
+                    "default_value":"string"
+                },
+                "status_timestamp":{
+                    "default_value":"string"
+                },
+                "reason_code":{
+                    "default_value":"string"
+                },
+                "comments":{
+                    "default_value":"string"
+                },
+                "expected_delivery_date":{
+                    "default_value":"4"
+                },
+                "is_archive":{
+                    "default_value":"",
+                    "operation":{
+                        "type":"dependent_value_check",
+                        "inputs":{
+                            "properties":{
+                                "check_value":{
+                                    "default_value":"cod"
+                                }
+                            }
+                        }
+                    }
                 }
+
             }
         },
         "outputs": {
@@ -165,4 +227,6 @@
             }
         }
     }
-}
+}}
+        
+        
